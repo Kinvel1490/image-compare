@@ -29,36 +29,35 @@ Then in your script:
 
 Full HTML structure: 
 <code>
-    <div class="compare">
-        <div class="compare_galery_wrapper">
-            <div class="compare_static">
-                <img class="compare_static_image" src="" alt="">
-            </div>
-            <div class="compare_resizable">
-                <img class="compare_resizable_image" src="" alt="">
-            </div>
-            <div class="control_wrapper"></div>
-            <span class="compare_next copmare_contorl_btn contorl_btn_next"></span>
-            <span class="compare_prev copmare_contorl_btn contorl_btn_prev"></span>
-        </div>
-        <div class="compare_thmb_wrapper">
-            <img src=""
+    &lt;div class="compare"&gt;
+        &lt;div class="compare_galery_wrapper"&gt;
+            &lt;div class="compare_static"&gt;
+                &lt;img class="compare_static_image" src="" alt=""&gt;
+            &lt;/div&gt;
+            &lt;div class="compare_resizable"&gt;
+                &lt;img class="compare_resizable_image" src="" alt=""&gt;
+            &lt;/div&gt;
+            &lt;div class="control_wrapper"&gt;&lt;/div&gt;
+            &lt;span class="compare_next copmare_contorl_btn contorl_btn_next"&gt;&lt;/span&gt;
+            &lt;span class="compare_prev copmare_contorl_btn contorl_btn_prev"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="compare_thmb_wrapper"&gt;
+            &lt;img src=""
                 fullSize=""
                 compare=""
                 alt=""
                 class="compare_thumb"
-            >
-            <span class="thumbs_compare_next copmare_contorl_btn contorl_btn_next"></span>
-            <span class="thumbs_compare_prev copmare_contorl_btn contorl_btn_prev"></span>
-        </div>
-    </div>
+            &gt;
+            &lt;span class="thumbs_compare_next copmare_contorl_btn contorl_btn_next"&gt;&lt;/span&gt;
+            &lt;span class="thumbs_compare_prev copmare_contorl_btn contorl_btn_prev"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
 </code>
 
 In the <code><img></code> fullsize and compare attributes are required. <code>fullsize</code> attribute must contain a link to a fullsize image which will be displayed on a background, and <code>compare</code> attribute must contain source of comparing image. So you can use in. You can make as much <code><img class="compare_thumb"></code> as you need.
 
 The options is the object with following properties: 
-<code>
-navigation: true | false // show | hide navigation buttons (default false)
+<code>navigation: true | false // show | hide navigation buttons (default false)
 thumbs: true | false // show | hide thumbnails (default false)
 thumbsNavigation:  true | false // show | hide thumbnails navigation buttons (default false)
 thumbsCount: Number // number of thumbnails to display (default 4)
@@ -76,4 +75,4 @@ navigationNext: String // navigation button class
 navigationPrev: String // navigation button class
 thumbsNavigationNext: String // thumbnails navigation button class
 thumbsNavigationPrev: String // thumbnails navigation button class
-thumbClass: String // thumbnails images class
+thumbClass: String // thumbnails images class</code>
