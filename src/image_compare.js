@@ -43,10 +43,11 @@ class imageComparator {
         this.nextImage = this.nextImage.bind(this)
         this.prevImage = this.prevImage.bind(this)
         this.isInitialsed = false
-        this.activeThumb = this.options.initialSlide
-        this.currentSlide = this.options.initialSlide
         this.translate = 0
         this.isThumbScrolling = false
+        this.maxActive = this.thumbs.length - this.options.thumbsCount
+        this.activeThumb = this.options.initialSlide > this.maxActive ? this.maxActive : this.options.initialSlide
+        this.currentSlide = this.options.initialSlide > this.thumbs.length - 1 ? this.thumbs.length - 1 : this.options.initialSlide
     }
 
     start (){
@@ -62,17 +63,17 @@ class imageComparator {
             this.thumbsNavigationNext && (this.thumbsNavigationNext.style.display = 'none')
             this.thumbsNavigationPrev && (this.thumbsNavigationPrev.style.display = 'none')
         }
-        if(this.thumbsContainer){ // making wrapper for thumbs
+        if(this.thumbsContainer && this.thumbs.length > 0){ // making wrapper for thumbs
             this.thumbWrapper = document.createElement('div')
             this.thumbWrapper.classList.add("compare_thumbs_slider")
             this.thumbWrapper.style.display = 'flex'
             this.thumbWrapper.style.transitionProperty = 'transform'
-            this.thumbWrapper.style.transitionBehavior = `${this.options.easing}`
+            this.thumbWrapper.style.transitionBehavior = `${options.easing}`
             this.thumbs.forEach(thumb=>{this.thumbWrapper.append(thumb)})
             this.thumbsContainer.prepend(this.thumbWrapper)
         }
-        this.thumbsNavigationNext && this.thumbsNavigationNext.addEventListener('click', ()=>this.nextThumbs(this.options.thumbsPerSlide))
-        this.thumbsNavigationPrev && this.thumbsNavigationPrev.addEventListener('click', ()=>this.prevThumbs(this.options.thumbsPerSlide))
+        this.thumbsNavigationNext && this.thumbsNavigationNext.addEventListener('click', ()=>this.nextThumbs(options.thumbsPerSlide))
+        this.thumbsNavigationPrev && this.thumbsNavigationPrev.addEventListener('click', ()=>this.prevThumbs(options.thumbsPerSlide))
 
         this.navigationNext && this.navigationNext.addEventListener('click', this.nextImage)
         this.navigationPrev && this.navigationPrev.addEventListener('click', this.prevImage)
@@ -84,13 +85,13 @@ class imageComparator {
         this.controller.addEventListener('mousedown', this.mouseClickController)
         window.addEventListener('mouseup', this.mouseUpController)
         this.resize()
-        this.thumbs[this.activeThumb].classList.add('active-thumb')
+        this.thumbs.length>0 && this.thumbs[this.activeThumb].classList.add('active-thumb')
         new ResizeObserver(this.resize).observe(this.galery)
         this.isInitialsed = true
     }
 
     resizeThumbs () {
-        this.thumbs.forEach((thumb, index)=>{
+        this.thumbs.forEach((thumb)=>{
             thumb.style.width = `${(this.galery.clientWidth - ((this.options.thumbsCount - 1) * this.options.thumbsSpace))/ this.options.thumbsCount}px`
         })
     }
@@ -108,9 +109,8 @@ class imageComparator {
     }
 
     nextThumbs (count) {
-        let maxActive = this.thumbs.length - this.options.thumbsCount
         this.thumbs[this.activeThumb].classList.remove('active-thumb')
-        this.activeThumb = this.activeThumb + count > maxActive ? maxActive : this.activeThumb + count
+        this.activeThumb = this.activeThumb + count > this.maxActive ? this.maxActive : this.activeThumb + count
         this.thumbs[this.activeThumb].classList.add('active-thumb')
         this.scrollSmooth()
     }
@@ -139,8 +139,10 @@ class imageComparator {
         this.maxWidth = this.staticImage.clientWidth
         this.resizableImage.style.width = `${this.maxWidth}px`
         this.resizableElement.style.width = !this.resizableElement.style.width ? `${(this.maxWidth / 2).toFixed(1)}px` : `${(this.maxWidth * relation).toFixed(1)}px`
-        this.resizeThumbs()
-        this.scrollToActiveSlide()
+        if(this.thumbs.length>0){
+            this.resizeThumbs()
+            this.scrollToActiveSlide()
+        }
     }
 
     setUpThumbs () {
@@ -149,6 +151,10 @@ class imageComparator {
         this.thumbs.forEach(thumb=>{
             thumb.addEventListener('click', (e)=>this.imageChanger(e.target))
         })
+        if(this.options.initialSlide > 0) {
+            this.staticImage.src = this.thumbs[this.options.initialSlide].getAttribute('fullsize')
+            this.resizableImage.src = this.thumbs[this.options.initialSlide].getAttribute('compare')
+        }
     }
 
     imageChanger (elem) {
