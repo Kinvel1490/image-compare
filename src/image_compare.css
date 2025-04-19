@@ -40,12 +40,6 @@
     display: block;
 }
 
-/*  */
-.compare_resizable_image {
-    filter: grayscale(1);
-}
-/*  */
-
 .control_wrapper {
     position: absolute;
     height: 100%;
