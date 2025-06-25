@@ -48,6 +48,9 @@ class imageComparator {
         this.maxActive = this.thumbs.length - this.options.thumbsCount
         this.activeThumb = this.options.initialSlide > this.maxActive ? this.maxActive : this.options.initialSlide
         this.currentSlide = this.options.initialSlide > this.thumbs.length - 1 ? this.thumbs.length - 1 : this.options.initialSlide
+        this.breakpoints = (options.breakpoints && Object.keys(options.breakpoints).length > 0)? options.breakpoints : false
+        this.thumbsCount = this.options.thumbsCount
+        this.thumbsSpace = this.options.thumbsSpace
     }
 
     start (){
@@ -92,13 +95,14 @@ class imageComparator {
 
     resizeThumbs () {
         this.thumbs.forEach((thumb)=>{
-            thumb.style.width = `${(this.galery.clientWidth - ((this.options.thumbsCount - 1) * this.options.thumbsSpace))/ this.options.thumbsCount}px`
+            thumb.style.width = `${(this.galery.clientWidth - ((this.thumbsCount - 1) * this.thumbsSpace))/ this.thumbsCount}px`
+            thumb.style.marginLeft = `${this.thumbsSpace}px`
         })
     }
 
     setThumbsSpace () {
         this.thumbs.forEach((thumb, index)=>{
-            index > 0 && (thumb.style.marginLeft = `${this.options.thumbsSpace}px`)
+            index > 0 && (thumb.style.marginLeft = `${this.thumbsSpace}px`)
         })
     }
 
@@ -135,6 +139,22 @@ class imageComparator {
 
     resize () {
         if(this.isInitialsed && this.resizableElement.clientWidth === this.maxWidth) return
+        console.log(this.breakpoints)
+        if(this.breakpoints){
+            let widthes = Object.keys(this.breakpoints)
+            for(let i = 0; i < widthes.length; i++){
+                let matches = matchMedia(`(max-width: ${widthes[i]}px)`).matches
+                console.log(matches, widthes[i])
+                if(matches){
+                    this.thumbsCount = this.breakpoints[widthes[i]].thumbsCount
+                    this.thumbsSpace = this.breakpoints[widthes[i]].thumbsSpace
+                    break
+                } else {
+                    this.thumbsCount = this.options.thumbsCount
+                    this.thumbsSpace = this.options.thumbsSpace
+                }
+            }
+        }
         let relation = this.resizableElement.clientWidth/this.maxWidth
         this.maxWidth = this.staticImage.clientWidth
         this.resizableImage.style.width = `${this.maxWidth}px`
@@ -143,6 +163,7 @@ class imageComparator {
             this.resizeThumbs()
             this.scrollToActiveSlide()
         }
+        
     }
 
     setUpThumbs () {
