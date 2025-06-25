@@ -77,4 +77,10 @@ navigationPrev: String // navigation button class
 thumbsNavigationNext: String // thumbnails navigation button class
 thumbsNavigationPrev: String // thumbnails navigation button class
 thumbClass: String // thumbnails images class
+breakpoints: {
+    number: {  // number is media(max-width: {number}px)
+        thumbsCount: number,
+        thumbsSpace: number
+    }
+}
 ```
