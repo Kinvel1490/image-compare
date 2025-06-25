@@ -23,7 +23,7 @@ Usage:
 Then in your script:
 
 ```javascript
-new imageComparator (document.querySelector('.compare'), [options]);
+new imageComparator (document.querySelector('.compare'), [options]).start();
 ```
 
 Full HTML structure: 
