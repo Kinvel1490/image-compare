@@ -139,15 +139,13 @@ class imageComparator {
 
     resize () {
         if(this.isInitialsed && this.resizableElement.clientWidth === this.maxWidth) return
-        console.log(this.breakpoints)
         if(this.breakpoints){
             let widthes = Object.keys(this.breakpoints)
             for(let i = 0; i < widthes.length; i++){
                 let matches = matchMedia(`(max-width: ${widthes[i]}px)`).matches
-                console.log(matches, widthes[i])
                 if(matches){
-                    this.thumbsCount = this.breakpoints[widthes[i]].thumbsCount
-                    this.thumbsSpace = this.breakpoints[widthes[i]].thumbsSpace
+                    this.breakpoints[widthes[i]].thumbsCount && (this.thumbsCount = this.breakpoints[widthes[i]].thumbsCount)
+                    this.breakpoints[widthes[i]].thumbsSpace && (this.thumbsSpace = this.breakpoints[widthes[i]].thumbsSpace)
                     break
                 } else {
                     this.thumbsCount = this.options.thumbsCount
